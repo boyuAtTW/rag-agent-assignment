@@ -1,6 +1,5 @@
-import os
 from dotenv import load_dotenv
-from src.agent import agent  # Import the agent you defined earlier
+from src import agent
 
 load_dotenv()
 
