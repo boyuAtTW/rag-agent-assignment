@@ -154,3 +154,5 @@ Yet I noticed:
 
 1. If I asked "What is the name of this project?", I am expecting "Titan" rather than "I am Gemini, a large language model ..."
 2. there is a noticeable time window between when I execute this command and when I can actually type in my question.
+
+k. Adding structured output

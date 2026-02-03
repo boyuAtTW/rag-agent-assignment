@@ -14,7 +14,8 @@ def chat():
         # run_sync is perfect for a simple CLI loop
         result = agent.run_sync(user_input)
 
-        print(f"\nAI: {result.output}")
+        print(f"\n✅ ANSWER: {result.output.answer}")
+        print(f"📍 SOURCE: {result.output.source_snippet}")
         print("-" * 20)
 
 
