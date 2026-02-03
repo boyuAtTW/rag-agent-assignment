@@ -96,3 +96,12 @@ def search_kb(ctx: RunContext[None], query: str) -> str:
     return "\n".join(results["documents"][0])
 
 ```
+
+g. Ingest the data
+
+```shell
+uv run python src/ingest.py
+```
+
+I ran into `chromadb.errors.InvalidArgumentError`.
+![chromadb.errors.InvalidArgumentError](assets/images/chromadb.errors.InvalidArgumentError.png)
