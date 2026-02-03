@@ -146,7 +146,7 @@ if __name__ == "__main__":
 
 ```
 
-now, it gives me the right answers.
+Now, it gives me the right answers.
 
 ![can indeed retrieve knowledge](assets/images/can-retrieve-knowledge.png)
 
@@ -156,3 +156,49 @@ Yet I noticed:
 2. there is a noticeable time window between when I execute this command and when I can actually type in my question.
 
 k. Adding structured output
+
+```python
+class AgentResponse(BaseModel):
+    answer: str = Field(description="The final answer to the user's question.")
+    source_snippet: str = Field(
+        description="The specific text used from the knowledge_base to answer."
+    )
+
+# use AgentResponse
+
+agent = Agent(
+    "google-gla:gemini-2.0-flash",
+    output_type=AgentResponse,  # Tell the agent to use the model above
+    system_prompt=(
+        "You are a helpful assistant. Use 'search_kb' to find facts before answering.",
+        "You must provide the answer and the exact snippet of text you used.",
+    ),
+)
+
+# provide source
+
+@agent.tool
+def search_kb(ctx: RunContext[None], query: str) -> str:
+    """Search the knowledge base for relevant facts."""
+    results = collection.query(query_texts=[query], n_results=2)
+
+    # Check if we actually found anything
+    if not results["documents"] or not results["documents"][0]:
+        return "No relevant information found in the knowledge base."
+
+    # Joining with clear separators helps the LLM distinguish between chunks
+    formatted_results = []
+    for i, doc in enumerate(results["documents"][0]):
+        formatted_results.append(f"Source {i + 1}:\n{doc}")
+
+    return "\n\n---\n\n".join(formatted_results)
+
+```
+
+Now, even better, I get the citation.
+![added structured output](assets/images/add-structured-output.png)
+
+Yet I noticed:
+
+1. Now it can answer the "What is the name of this project?" question, I suspect that the fact that I've improved the system prompt made the agent answer correctly.
+2. "Who is the lead architect for Project Orion?" should give me "No relevant information found in the knowledge base." Yet it gives me a wrong answer.
