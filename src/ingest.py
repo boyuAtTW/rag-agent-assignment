@@ -10,7 +10,7 @@ def run_ingestion():
         model_name="all-MiniLM-L6-v2"
     )
 
-    collection = client.get_or_create_collection("kb", embedding_function=emb_fn)
+    collection = client.get_or_create_collection("knowledge_base", embedding_function=emb_fn)
 
     # Example: Load your local file
     with open("data/knowledge.txt", "r") as f:

@@ -105,3 +105,14 @@ uv run python src/ingest.py
 
 I ran into `chromadb.errors.InvalidArgumentError`.
 ![chromadb.errors.InvalidArgumentError](assets/images/chromadb.errors.InvalidArgumentError.png)
+
+h. fix the `InvalidArgumentError`, it turns out the "kb" name is too short (2-char), there should be at least 3 chars. So rename it from "kb" to "knowledge_base"
+
+```python
+# ingest.py
+collection = client.get_or_create_collection("knowledge_base", embedding_function=emb_fn)
+# agent.py
+collection = client.get_collection("knowledge_base", embedding_function=emb_fn)
+```
+
+i. delete the `data/chroma/sqlite3`, and re-run `uv run python src/ingest.py`

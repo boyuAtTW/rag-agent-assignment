@@ -11,7 +11,7 @@ client = chromadb.PersistentClient(path="./db")
 emb_fn = embedding_functions.SentenceTransformerEmbeddingFunction(
     model_name="all-MiniLM-L6-v2"
 )
-collection = client.get_collection("kb", embedding_function=emb_fn)
+collection = client.get_collection("knowledge_base", embedding_function=emb_fn)
 
 # The Agent definition
 agent = Agent(
