@@ -202,3 +202,7 @@ Yet I noticed:
 
 1. Now it can answer the "What is the name of this project?" question, I suspect that the fact that I've improved the system prompt made the agent answer correctly.
 2. "Who is the lead architect for Project Orion?" should give me "No relevant information found in the knowledge base." Yet it gives me a wrong answer.
+
+l. fix the wrong answer
+
++ The Strategy: Reflection

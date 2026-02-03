@@ -1,8 +1,8 @@
 import chromadb
 from chromadb.utils import embedding_functions
 from dotenv import load_dotenv
-from pydantic import BaseModel, Field  # Add these
-from pydantic_ai import Agent, RunContext
+from pydantic import BaseModel, Field
+from pydantic_ai import Agent, RunContext, ModelRetry
 
 load_dotenv()
 
@@ -28,9 +28,31 @@ agent = Agent(
     output_type=AgentResponse,  # Tell the agent to use the model above
     system_prompt=(
         "You are a helpful assistant. Use 'search_kb' to find facts before answering.",
-        "You must provide the answer and the exact snippet of text you used.",
+        "Rules:\n"
+        "1. ONLY answer using facts from 'search_kb'.\n"
+        "2. If 'search_kb' returns 'No relevant information', state that you do not know.\n"
+        "3. NEVER use your own training data to invent project details.",
     ),
+    retries=3,  # Allow the agent to try again if it fails validation
 )
+
+
+# 2. The Result Validator (The Hallucination Guard)
+@agent.output_validator
+def validate_result(ctx: RunContext[None], output: AgentResponse) -> AgentResponse:
+    """Checks if the AI's answer is actually supported by the source snippet."""
+    # If the AI says it found something, but the source says "No relevant information"
+    if "no relevant information" in output.source_snippet.lower():
+        if (
+            "not found" not in output.answer.lower()
+            and "don't know" not in output.answer.lower()
+        ):
+            # This triggers a retry loop: the AI sees this message and corrects itself
+            raise ModelRetry(
+                "You provided an answer but the source snippet says no info was found. "
+                "Please correct your answer to say you do not know."
+            )
+    return output
 
 
 @agent.tool
