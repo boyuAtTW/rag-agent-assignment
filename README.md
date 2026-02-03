@@ -195,7 +195,7 @@ def search_kb(ctx: RunContext[None], query: str) -> str:
 
 ```
 
-Now, even better, I get the citation.
+Now, even better, I get the source for me to verify.
 ![added structured output](assets/images/add-structured-output.png)
 
 Yet I noticed:
