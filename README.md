@@ -117,3 +117,32 @@ collection = client.get_collection("knowledge_base", embedding_function=emb_fn)
 
 i. delete the `data/chroma/sqlite3`, and re-run `uv run python src/ingest.py`
 ![successfully ingested the knowledge](assets/images/successfully-ingest.png)
+
+j. `main.py` to interact with the agent
+
+```python
+import os
+from dotenv import load_dotenv
+from src.agent import agent  # Import the agent you defined earlier
+
+load_dotenv()
+
+
+def chat():
+    print("--- Project Titan Assistant (Type 'exit' to quit) ---")
+    while True:
+        user_input = input("You: ")
+        if user_input.lower() in ["exit", "quit"]:
+            break
+
+        # run_sync is perfect for a simple CLI loop
+        result = agent.run_sync(user_input)
+
+        print(f"\nAI: {result.data}")
+        print("-" * 20)
+
+
+if __name__ == "__main__":
+    chat()
+
+```
