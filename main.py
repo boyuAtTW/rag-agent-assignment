@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-from src import agent
+from src.agent import agent  # This imports the 'agent' VARIABLE from the file
 
 load_dotenv()
 
