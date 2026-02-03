@@ -121,9 +121,8 @@ i. delete the `data/chroma/sqlite3`, and re-run `uv run python src/ingest.py`
 j. `main.py` to interact with the agent
 
 ```python
-import os
 from dotenv import load_dotenv
-from src.agent import agent  # Import the agent you defined earlier
+from src.agent import agent  # This imports the 'agent' VARIABLE from the file
 
 load_dotenv()
 
@@ -138,7 +137,7 @@ def chat():
         # run_sync is perfect for a simple CLI loop
         result = agent.run_sync(user_input)
 
-        print(f"\nAI: {result.data}")
+        print(f"\nAI: {result.output}")
         print("-" * 20)
 
 
@@ -146,3 +145,12 @@ if __name__ == "__main__":
     chat()
 
 ```
+
+now, it gives me the right answers.
+
+![can indeed retrieve knowledge](assets/images/can-retrieve-knowledge.png)
+
+Yet I noticed:
+
+1. If I asked "What is the name of this project?", I am expecting "Titan" rather than "I am Gemini, a large language model ..."
+2. there is a noticeable time window between when I execute this command and when I can actually type in my question.
