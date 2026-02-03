@@ -244,3 +244,9 @@ The result is better.
 On the one hand, it still has hallucination (the second question),
 however, on the other hand the validator is actually doing some work (the third question).
 ![Added the validator](assets/images/add-validator.png)
+
+---
+Further Actions
+
++ [ ] understand why there is a noticeable time window between when I execute this command and when I can actually type in my question.
++ [ ] further reducing the hallucination
