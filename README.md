@@ -1,18 +1,18 @@
 ## Journal
 
-**Init project**, this creates `pyproject.toml` and `.python-version`
+a. **Init project**, this creates `pyproject.toml` and `.python-version`
 
 ```shell
 uv init
 ```
 
-**Add dependencies**
+b. **Add dependencies**
 
 ```shell
 uv add pydantic-ai google-genai chromadb sentence-transformers python-dotenv
 ```
 
-**Setup project structure**
+c. **Setup project structure**
 
 ```plaintext
 rag-agent-assignment/
@@ -29,7 +29,9 @@ rag-agent-assignment/
 + Configure VS Code python settings: `"python.terminal.useEnvFile": true`
 + Add `.env` to `.gitignore`
 
-**The ingest script** (`src/ingest.py`)
+d. **Add knowledge**: `data/knowledge.txt`
+
+e. **The ingest script** (`src/ingest.py`)
 
 ```python
 import chromadb
@@ -62,7 +64,7 @@ if __name__ == "__main__":
 
 ```
 
-**The agent script** (`src/agent.py`)
+f. **The agent script** (`src/agent.py`)
 
 ```python
 import os

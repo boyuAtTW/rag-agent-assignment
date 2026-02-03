@@ -1,0 +1,22 @@
+PROJECT TITAN: DEVELOPMENT SPECIFICATIONS
+Date: February 3, 2026
+Status: Internal Draft
+
+### 1. Overview
+Project Titan is our upcoming framework for decentralized AI model training. It aims to reduce GPU latency by 40% using a proprietary "Shard-Sync" protocol.
+
+### 2. Architecture Decisions
+We have decided to move away from PostgreSQL for our primary vector storage. Starting in Q2, all AI-related metadata will be stored in Qdrant (distributed mode). This change was driven by the need for sub-50ms retrieval times during peak loads.
+
+### 3. Team Leads and Responsibilities
+- Sarah Jenkins: Lead Architect (Shard-Sync Protocol)
+- Marcus Chen: Head of Infrastructure (Migration to Qdrant)
+- Elena Rodriguez: Security Compliance (GDPR and AI Act alignment)
+
+### 4. Technical Hurdles
+During the January stress test, the system experienced a "Memory Leak" when processing datasets larger than 5TB. Sarah suggests implementing a "Buffer-Flush" mechanism to prevent the Node.js workers from crashing.
+
+### 5. Key Deadlines
+- Alpha Release: March 15, 2026
+- Security Audit: April 10, 2026
+- Public Beta: June 1, 2026
