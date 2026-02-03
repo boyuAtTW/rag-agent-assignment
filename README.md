@@ -206,3 +206,41 @@ Yet I noticed:
 l. fix the wrong answer
 
 + The Strategy: Reflection
+
+```python
+agent = Agent(
+    "google-gla:gemini-2.0-flash",
+    output_type=AgentResponse,
+    # 1. Stricter prompt
+    system_prompt=(
+        "You are a helpful assistant. Use 'search_kb' to find facts before answering.",
+        "Rules:\n"
+        "1. ONLY answer using facts from 'search_kb'.\n"
+        "2. If 'search_kb' returns 'No relevant information', state that you do not know.\n"
+        "3. NEVER use your own training data to invent project details.",
+    ),
+    retries=3,  # 2. Allow the agent to try again if it fails validation
+)
+
+# 3. The Result Validator (The Hallucination Guard)
+@agent.output_validator
+def validate_result(ctx: RunContext[None], output: AgentResponse) -> AgentResponse:
+    """Checks if the AI's answer is actually supported by the source snippet."""
+    # If the AI says it found something, but the source says "No relevant information"
+    if "no relevant information" in output.source_snippet.lower():
+        if (
+            "not found" not in output.answer.lower()
+            and "don't know" not in output.answer.lower()
+        ):
+            # This triggers a retry loop: the AI sees this message and corrects itself
+            raise ModelRetry(
+                "You provided an answer but the source snippet says no info was found. "
+                "Please correct your answer to say you do not know."
+            )
+    return output
+```
+
+The result is better.
+On the one hand, it still has hallucination (the second question),
+however, on the other hand the validator is actually doing some work (the third question).
+![Added the validator](assets/images/add-validator.png)
