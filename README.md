@@ -116,3 +116,4 @@ collection = client.get_collection("knowledge_base", embedding_function=emb_fn)
 ```
 
 i. delete the `data/chroma/sqlite3`, and re-run `uv run python src/ingest.py`
+![successfully ingested the knowledge](assets/images/successfully-ingest.png)
