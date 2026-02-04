@@ -250,3 +250,4 @@ Further Actions
 
 + [ ] understand why there is a noticeable time window between when I execute this command and when I can actually type in my question.
 + [ ] further reducing the hallucination
++ [ ] test on larger-scale knowledge base
